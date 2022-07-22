@@ -40,6 +40,7 @@ const handleSubmit = (event) => {
     const readedFormSel = document.getElementById("readedForm").checked;
     const newBook = new Book(titleFormSel, authorFormSel, pagesFormSel, readedFormSel);
     myLibrary.push(newBook);
+    document.getElementById("formAdd").reset();
     printBooks();
 }
 
