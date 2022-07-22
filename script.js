@@ -32,6 +32,17 @@ const createSampleBooks = () => {
     addBookToLibrary(BookFour);
 }
 
+const handleSubmit = (event) => {
+    event.preventDefault();
+    const titleFormSel = document.getElementById("titleForm").value;
+    const authorFormSel = document.getElementById("authorForm").value;
+    const pagesFormSel = document.getElementById("pagesForm").value;
+    const readedFormSel = document.getElementById("readedForm").checked;
+    const newBook = new Book(titleFormSel, authorFormSel, pagesFormSel, readedFormSel);
+    myLibrary.push(newBook);
+    printBooks();
+}
+
 const printBooks = () => {
     const container = document.createElement("div");
     myLibrary.forEach((elem) => {
@@ -47,6 +58,14 @@ const printBooks = () => {
         pagesElem.appendChild(newContentPages);
         const readedElem = document.createElement("p");
         const changeReadedElem = document.createElement("button");
+        changeReadedElem.onclick = function () {
+            const findIndex = myLibrary.findIndex((elem) => {
+                return elem.name === this.parentElement.parentElement.dataset.name;
+            })
+            myLibrary[findIndex].toggleReaded();
+            printBooks();
+        };
+
         const newContentBtnChange = document.createTextNode("TOGGLE READED");
         changeReadedElem.appendChild(newContentBtnChange);
         const newContentReaded = document.createTextNode(elem.readed ? "READED: ✔️" : "READED: ❌");
@@ -73,7 +92,6 @@ const printBooks = () => {
         bookDiv.dataset.name = elem.name;
 
         container.appendChild(bookDiv);
-
     })
 
     const booksSelector = document.querySelector(".showBooks");
